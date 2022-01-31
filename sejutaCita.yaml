@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sejutaCita-demo
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      sejutaCita: web
+  template:
+    metadata:
+      labels:
+        sejutaCita: web
+    spec:
+      containers:
+        - name: sejutaCita-site
+          image: getting-started
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sejutaCita-entrypoint
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    sejutaCita: web
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 30001
